@@ -1,11 +1,19 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDatabase = exports.connectDatabase = void 0;
 const mongodb_1 = require("mongodb");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 let db = null;
 async function connectDatabase() {
     try {
-        const uri = "mongodb+srv://mnosov622:linktag18@cluster0.thdiebn.mongodb.net/users?retryWrites=true&w=majority";
+        const uri = process.env.MONGODB_URI;
+        if (!uri) {
+            throw new Error("MongoDB URI not found in environment variables");
+        }
         const client = new mongodb_1.MongoClient(uri);
         await client.connect();
         db = client.db(); // Store the database connection

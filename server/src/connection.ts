@@ -1,11 +1,18 @@
 import { MongoClient, Db } from "mongodb";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 let db: Db | null = null;
 
 export async function connectDatabase() {
   try {
-    const uri =
-      "mongodb+srv://mnosov622:linktag18@cluster0.thdiebn.mongodb.net/users?retryWrites=true&w=majority";
+    const uri = process.env.MONGODB_URI;
+
+    if (!uri) {
+      throw new Error("MongoDB URI not found in environment variables");
+    }
+
     const client = new MongoClient(uri);
 
     await client.connect();
