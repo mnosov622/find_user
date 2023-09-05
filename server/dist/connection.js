@@ -5,7 +5,7 @@ const mongodb_1 = require("mongodb");
 let db = null;
 async function connectDatabase() {
     try {
-        const uri = "mongodb+srv://mnosov622:linktag18@cluster0.thdiebn.mongodb.net/?retryWrites=true&w=majority";
+        const uri = "mongodb+srv://mnosov622:linktag18@cluster0.thdiebn.mongodb.net/users?retryWrites=true&w=majority";
         const client = new mongodb_1.MongoClient(uri);
         await client.connect();
         db = client.db(); // Store the database connection

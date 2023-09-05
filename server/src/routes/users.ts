@@ -5,13 +5,10 @@ const router = Router();
 
 router.post("/search", async (req: Request, res: Response) => {
   const { email, number } = req.body;
-  console.log("email", email, number);
   try {
     const db = getDatabase();
-    console.log("Connected to database:", db.databaseName);
 
     const usersCollection = db.collection("users");
-    console.log("usersCollection", usersCollection);
 
     // Remove dashes from the number, if present
     const cleanNumber = number ? number.replace(/-/g, "") : undefined;
@@ -22,9 +19,7 @@ router.post("/search", async (req: Request, res: Response) => {
     if (cleanNumber) {
       query.number = cleanNumber;
     }
-
     const user = await usersCollection.findOne(query);
-    console.log("user", user);
     if (user) {
       res.json(user);
     } else {

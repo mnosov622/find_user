@@ -5,7 +5,7 @@ let db: Db | null = null;
 export async function connectDatabase() {
   try {
     const uri =
-      "mongodb+srv://mnosov622:linktag18@cluster0.thdiebn.mongodb.net/?retryWrites=true&w=majority";
+      "mongodb+srv://mnosov622:linktag18@cluster0.thdiebn.mongodb.net/users?retryWrites=true&w=majority";
     const client = new MongoClient(uri);
 
     await client.connect();

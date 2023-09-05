@@ -11,7 +11,15 @@ router.post("/search", async (req, res) => {
         console.log("Connected to database:", db.databaseName);
         const usersCollection = db.collection("users");
         console.log("usersCollection", usersCollection);
-        const user = await usersCollection.findOne({ email, number });
+        // Remove dashes from the number, if present
+        const cleanNumber = number ? number.replace(/-/g, "") : undefined;
+        let query = { email };
+        // Only add the "number" field to the query if it is provided
+        if (cleanNumber) {
+            query.number = cleanNumber;
+        }
+        console.log("query", query);
+        const user = await usersCollection.findOne(query);
         console.log("user", user);
         if (user) {
             res.json(user);
