@@ -4,6 +4,11 @@ import { getDatabase } from "../connection";
 const router = Router();
 let currentSearchTimeout: NodeJS.Timeout | null = null;
 
+interface User {
+  email: string;
+  number?: string;
+}
+
 router.post("/search", async (req: Request, res: Response) => {
   const { email, number } = req.body;
 
@@ -15,7 +20,7 @@ router.post("/search", async (req: Request, res: Response) => {
   currentSearchTimeout = setTimeout(async () => {
     try {
       const db = getDatabase();
-      const usersCollection = db.collection("users");
+      const usersCollection = db.collection<User>("users");
 
       // Remove dashes from the number, if present
       const cleanNumber = number ? number.replace(/-/g, "") : undefined;
