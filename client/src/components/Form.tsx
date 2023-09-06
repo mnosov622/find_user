@@ -12,13 +12,14 @@ const Form = () => {
   const numberRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
 
-  const [searchResults, setSearchResults] = useState<Results>();
+  const [searchResults, setSearchResults] = useState<Results | "">();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
+    setSearchResults("");
     const numberValue = numberRef.current?.value || "";
     const emailValue = emailRef.current?.value || "";
 
@@ -42,7 +43,6 @@ const Form = () => {
       }
 
       const data = await response.json();
-      console.log("data", data);
       if (!data) {
         setError("No results found");
         return;
@@ -67,17 +67,15 @@ const Form = () => {
           <label htmlFor="number">Number</label>
           <InputMask mask="99-99-99" ref={numberRef} placeholder="12-34-56" id="number" />
         </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Submitting..." : "Submit"}
-        </button>
+        <button type="submit">{loading ? "Submitting..." : "Submit"}</button>
       </form>
       {error && <div className="error">{error}</div>}
 
       {searchResults && (
         <div className="results">
           <h3>Results</h3>
-          <p>{searchResults.email}</p>
-          <p>{searchResults.number}</p>
+          <p>Email: {searchResults.email}</p>
+          <p>Number: {searchResults.number}</p>
         </div>
       )}
     </div>
